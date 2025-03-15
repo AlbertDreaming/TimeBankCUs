@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeBankCU.Views.MePage"
+             Title="Me"
+             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
+             x:DataType="viewmodels:MeViewModel">
+
+    <ContentPage.BindingContext>
+        <viewmodels:MeViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+
+            <!-- Top Section: User Info -->
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                <Image Source="{Binding UserAvatar}" WidthRequest="100" HeightRequest="100" Aspect="AspectFill" />
+                <StackLayout Padding="10">
+                    <Label Text="{Binding UserName}" FontSize="Large" FontAttributes="Bold" />
+                    <Label Text="{Binding UserSkills}" />
+                    <Button Text="Add New Skill" Command="{Binding AddSkillCommand}" />
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Core Data Section -->
+            <StackLayout Padding="10">
+                <Label Text="My Task" FontSize="Medium" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding MyTasks}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="LightGray" CornerRadius="5" Padding="5" Margin="5">
+                                <Label Text="{Binding TaskName}" />
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label Text="Searching History" FontSize="Medium" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding SearchingHistory}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="LightGray" CornerRadius="5" Padding="5" Margin="5">
+                                <Label Text="{Binding SearchTerm}" />
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label Text="Time Credits" FontSize="Medium" FontAttributes="Bold" />
+                <Label Text="{Binding TimeCredits}" />
+            </StackLayout>
+
+            <!-- Function Options Section -->
+            <StackLayout Padding="10">
+                <Button Text="Favorites" Command="{Binding NavigateCommand}" CommandParameter="Favorites" />
+                <Button Text="Security" Command="{Binding NavigateCommand}" CommandParameter="Security" />
+                <Button Text="Help and Feedback" Command="{Binding NavigateCommand}" CommandParameter="HelpAndFeedback" />
+                <Button Text="Give us a good review" Command="{Binding NavigateCommand}" CommandParameter="Review" />
+                <Button Text="Log out" Command="{Binding LogoutCommand}" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
