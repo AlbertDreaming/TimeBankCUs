@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeBankCU.Views.CreateTaskPage"
+             Title="Create Task"
+             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
+             x:DataType="viewmodels:CreateTaskViewModel">
+
+    <ContentPage.BindingContext>
+        <viewmodels:CreateTaskViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+
+            <!-- Campus Area Picker -->
+            <Picker Title="Campus Area" ItemsSource="{Binding CampusAreas}" SelectedItem="{Binding SelectedCampus}" />
+
+            <!-- Task Title Entry -->
+            <Entry Placeholder="Task Title" Text="{Binding TaskTitle}" />
+
+            <!-- Reward Entry -->
+            <Entry Placeholder="Reward" Text="{Binding Reward}" Keyboard="Numeric" />
+
+            <!-- Participants Entry -->
+            <Entry Placeholder="Number of Participants" Text="{Binding Participants}" Keyboard="Numeric" />
+
+            <!-- Task Details Editor -->
+            <Editor Placeholder="Task Details" Text="{Binding TaskDetails}" />
+
+            <!-- File Upload Button -->
+            <Button Text="Upload File" Command="{Binding UploadFileCommand}" />
+
+            <!-- Release Button -->
+            <Button Text="Release" Command="{Binding ReleaseCommand}" BackgroundColor="DodgerBlue" TextColor="White" />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

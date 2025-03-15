@@ -1,14 +1,15 @@
-﻿namespace TimeBankCU;
+﻿using Microsoft.Maui.Controls;
 
-public partial class App : Application
+namespace TimeBankCU
 {
-	public App()
-	{
-		InitializeComponent();
-	}
+    public partial class App : Application
+    {
+        public App()
+        {
+            InitializeComponent();
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new AppShell());
-	}
+            // 设置主页面为导航页面，其中包含TaskPage
+            MainPage = new NavigationPage(new Views.TaskPage());
+        }
+    }
 }

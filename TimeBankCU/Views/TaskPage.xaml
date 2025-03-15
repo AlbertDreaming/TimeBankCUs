@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeBankCU.Views.TaskPage"
+             Title="Task Manager"
+             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
+             x:DataType="viewmodels:TaskViewModel">
+
+    <ContentPage.BindingContext>
+        <viewmodels:TaskViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+
+            <!-- Filter Section -->
+            <StackLayout Orientation="Horizontal" Padding="10">
+                <Picker Title="Method" ItemsSource="{Binding MethodOptions}" SelectedItem="{Binding SelectedMethod}" />
+                <Picker Title="Location" ItemsSource="{Binding LocationOptions}" SelectedItem="{Binding SelectedLocation}" />
+                <Picker Title="Time" ItemsSource="{Binding TimeOptions}" SelectedItem="{Binding SelectedTime}" />
+                <Button Text="More Filters" Command="{Binding MoreFiltersCommand}" />
+            </StackLayout>
+
+            <!-- Task List -->
+            <CollectionView ItemsSource="{Binding Tasks}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Gray" CornerRadius="10" Padding="10" Margin="5">
+                            <StackLayout>
+                                <Label Text="{Binding PublisherName}" FontAttributes="Bold" />
+                                <Label Text="{Binding PublisherEmail}" />
+                                <Label Text="{Binding TaskType}" />
+                                <Label Text="{Binding Rating}" />
+                                <Label Text="{Binding Reward}" />
+                                <Label Text="{Binding Participants}" />
+                                <Button Text="Talk" Command="{Binding TalkCommand}" CommandParameter="{Binding .}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Floating Action Button -->
+            <Button Text="+" Command="{Binding CreateTaskCommand}"
+                    VerticalOptions="End" HorizontalOptions="End"
+                    WidthRequest="60" HeightRequest="60"
+                    CornerRadius="30" BackgroundColor="DodgerBlue"
+                    TextColor="White" FontSize="Large" />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,23 +1,12 @@
-﻿namespace TimeBankCU;
+﻿using Microsoft.Maui.Controls;
 
-public partial class MainPage : ContentPage
+namespace TimeBankCU
 {
-    int count = 0;
-
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-        InitializeComponent();
-    }
-
-    private void OnCounterClicked(object sender, EventArgs e)
-    {
-        count++;
-
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
+        public MainPage()
+        {
+            InitializeComponent();
+        }
     }
 }
