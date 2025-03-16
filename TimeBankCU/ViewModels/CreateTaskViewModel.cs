@@ -101,19 +101,10 @@ namespace TimeBankCU.ViewModels
             };
 
             // 获取 TaskViewModel 实例并添加新任务
-            if (Application.Current.MainPage is AppShell shell)
+            var taskPage = Shell.Current.FindByName<NavigationPage>("TaskPage");
+            if (taskPage?.CurrentPage?.BindingContext is TaskViewModel taskViewModel)
             {
-                foreach (var item in shell.Items)
-                {
-                    if (item is ShellContent content && content.Route == "TaskPage")
-                    {
-                        if (content.Content is NavigationPage navPage && navPage.CurrentPage.BindingContext is TaskViewModel taskViewModel)
-                        {
-                            taskViewModel.Tasks.Add(newTask);
-                            break;
-                        }
-                    }
-                }
+                taskViewModel.Tasks.Add(newTask);
             }
 
             // 导航回 TaskPage
