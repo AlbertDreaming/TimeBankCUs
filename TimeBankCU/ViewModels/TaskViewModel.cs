@@ -16,35 +16,35 @@ namespace TimeBankCU.ViewModels
         public ICommand TalkCommand { get; }
         public ICommand CreateTaskCommand { get; }
 
-        private string selectedMethod;
+        private string _selectedMethod;
         public string SelectedMethod
         {
-            get => selectedMethod;
+            get => _selectedMethod;
             set
             {
-                selectedMethod = value;
+                _selectedMethod = value;
                 OnPropertyChanged();
             }
         }
 
-        private string selectedLocation;
+        private string _selectedLocation;
         public string SelectedLocation
         {
-            get => selectedLocation;
+            get => _selectedLocation;
             set
             {
-                selectedLocation = value;
+                _selectedLocation = value;
                 OnPropertyChanged();
             }
         }
 
-        private string selectedTime;
+        private string _selectedTime;
         public string SelectedTime
         {
-            get => selectedTime;
+            get => _selectedTime;
             set
             {
-                selectedTime = value;
+                _selectedTime = value;
                 OnPropertyChanged();
             }
         }
@@ -57,8 +57,8 @@ namespace TimeBankCU.ViewModels
 
             Tasks = new ObservableCollection<TaskItem>
             {
-                new TaskItem { PublisherName = "John Doe", PublisherEmail = "john@example.com", TaskType = "Type1", Rating = "4.5", Reward = "$100", Participants = "5" },
-                new TaskItem { PublisherName = "Jane Smith", PublisherEmail = "jane@example.com", TaskType = "Type2", Rating = "4.0", Reward = "$200", Participants = "3" }
+                new TaskItem { PublisherName = "John Doe", PublisherEmail = "john@example.com", TaskType = "Type1", Reward = "$100", Participants = "5", TaskDetails = "Details1", Campus = "Campus1" },
+                new TaskItem { PublisherName = "Jane Smith", PublisherEmail = "jane@example.com", TaskType = "Type2", Reward = "$200", Participants = "3", TaskDetails = "Details2", Campus = "Campus2" }
             };
 
             MoreFiltersCommand = new Command(OnMoreFilters);
@@ -66,9 +66,9 @@ namespace TimeBankCU.ViewModels
             CreateTaskCommand = new Command(OnCreateTask);
 
             // 确保在构造函数退出前初始化所有不可为null的字段
-            selectedMethod = MethodOptions.FirstOrDefault() ?? string.Empty;
-            selectedLocation = LocationOptions.FirstOrDefault() ?? string.Empty;
-            selectedTime = TimeOptions.FirstOrDefault() ?? string.Empty;
+            _selectedMethod = MethodOptions.FirstOrDefault() ?? string.Empty;
+            _selectedLocation = LocationOptions.FirstOrDefault() ?? string.Empty;
+            _selectedTime = TimeOptions.FirstOrDefault() ?? string.Empty;
         }
 
         private void OnMoreFilters()
@@ -83,10 +83,15 @@ namespace TimeBankCU.ViewModels
 
         private void OnCreateTask()
         {
-            // Navigate to CreateTaskPage using the new API
-            if (Application.Current.Windows.Count > 0)
+            // 检查 Application.Current 和 Application.Current.Windows 是否为 null
+            if (Application.Current?.Windows?.Count > 0 && Application.Current.Windows[0]?.Page != null)
             {
                 Application.Current.Windows[0].Page.Navigation.PushAsync(new Views.CreateTaskPage());
+            }
+            else
+            {
+                // 处理可能的 null 引用情况，例如记录日志或显示错误消息
+                Console.WriteLine("Navigation failed: Application.Current or Application.Current.Windows is null.");
             }
         }
     }

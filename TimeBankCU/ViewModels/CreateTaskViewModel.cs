@@ -12,57 +12,57 @@ namespace TimeBankCU.ViewModels
         public ICommand UploadFileCommand { get; }
         public ICommand ReleaseCommand { get; }
 
-        private string selectedCampus;
+        private string _selectedCampus;
         public string SelectedCampus
         {
-            get => selectedCampus;
+            get => _selectedCampus;
             set
             {
-                selectedCampus = value;
+                _selectedCampus = value;
                 OnPropertyChanged();
             }
         }
 
-        private string taskTitle;
+        private string _taskTitle;
         public string TaskTitle
         {
-            get => taskTitle;
+            get => _taskTitle;
             set
             {
-                taskTitle = value;
+                _taskTitle = value;
                 OnPropertyChanged();
             }
         }
 
-        private string reward;
+        private string _reward;
         public string Reward
         {
-            get => reward;
+            get => _reward;
             set
             {
-                reward = value;
+                _reward = value;
                 OnPropertyChanged();
             }
         }
 
-        private string participants;
+        private string _participants;
         public string Participants
         {
-            get => participants;
+            get => _participants;
             set
             {
-                participants = value;
+                _participants = value;
                 OnPropertyChanged();
             }
         }
 
-        private string taskDetails;
+        private string _taskDetails;
         public string TaskDetails
         {
-            get => taskDetails;
+            get => _taskDetails;
             set
             {
-                taskDetails = value;
+                _taskDetails = value;
                 OnPropertyChanged();
             }
         }
@@ -74,11 +74,11 @@ namespace TimeBankCU.ViewModels
             ReleaseCommand = new Command(OnRelease);
 
             // 确保在构造函数退出前初始化所有不可为null的字段
-            selectedCampus = CampusAreas.FirstOrDefault() ?? string.Empty;
-            taskTitle = string.Empty;
-            reward = string.Empty;
-            participants = string.Empty;
-            taskDetails = string.Empty;
+            _selectedCampus = string.Empty;
+            _taskTitle = string.Empty;
+            _reward = string.Empty;
+            _participants = string.Empty;
+            _taskDetails = string.Empty;
         }
 
         private void OnUploadFile()
@@ -93,11 +93,13 @@ namespace TimeBankCU.ViewModels
             {
                 PublisherName = "Current User", // 替换为实际发布者信息
                 PublisherEmail = "user@example.com", // 替换为实际发布者邮箱
-                TaskType = taskTitle,
-                Rating = "0", // 初始评分为0
-                Reward = reward,
-                Participants = participants,
-                TaskDetails = taskDetails
+                TaskType = _taskTitle,
+                Reward = _reward,
+                Participants = _participants,
+                TaskDetails = _taskDetails,
+                Campus = _selectedCampus,
+                Title = _taskTitle,
+                Description = _taskDetails
             };
 
             // 获取 TaskViewModel 实例并添加新任务
@@ -108,9 +110,14 @@ namespace TimeBankCU.ViewModels
             }
 
             // 导航回 TaskPage
-            if (Application.Current.Windows.Count > 0)
+            if (Application.Current?.Windows?.Count > 0 && Application.Current.Windows[0]?.Page != null)
             {
                 await Application.Current.Windows[0].Page.Navigation.PopAsync();
+            }
+            else
+            {
+                // 处理可能的 null 引用情况，例如记录日志或显示错误消息
+                Console.WriteLine("Navigation failed: Application.Current or Application.Current.Windows is null.");
             }
         }
     }
