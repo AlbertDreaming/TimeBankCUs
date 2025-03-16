@@ -29,7 +29,7 @@
 
             <!-- Navigation Menu -->
             <ScrollView Orientation="Horizontal">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Button Text="Post" Command="{Binding NavigateCommand}" CommandParameter="Post" />
                     <Button Text="Accept" Command="{Binding NavigateCommand}" CommandParameter="Accept" />
                     <Button Text="Credit" Command="{Binding NavigateCommand}" CommandParameter="Credit" />
@@ -40,24 +40,17 @@
             <CollectionView ItemsSource="{Binding TaskItems}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BorderColor="Gray" CornerRadius="10" Padding="10">
+                        <Border BackgroundColor="White" Stroke="Gray" StrokeShape="RoundRectangle 10" Padding="10">
                             <StackLayout>
                                 <Image Aspect="AspectFill" HeightRequest="100" Source="{Binding ImageUrl}" />
                                 <Label Text="{Binding Title}" FontAttributes="Bold" />
                                 <Label Text="{Binding Description}" />
                             </StackLayout>
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <!-- Bottom Navigation Bar -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray" Padding="5">
-                <Button Text="Article" HorizontalOptions="FillAndExpand" Command="{Binding NavigateCommand}" CommandParameter="Article" />
-                <Button Text="Task" HorizontalOptions="FillAndExpand" Command="{Binding NavigateCommand}" CommandParameter="Task" />
-                <Button Text="Calendar" HorizontalOptions="FillAndExpand" Command="{Binding NavigateCommand}" CommandParameter="Calendar" />
-                <Button Text="Me" HorizontalOptions="FillAndExpand" Command="{Binding NavigateCommand}" CommandParameter="Me" />
-            </StackLayout>
+            
             
         </StackLayout>
     </ContentPage.Content>

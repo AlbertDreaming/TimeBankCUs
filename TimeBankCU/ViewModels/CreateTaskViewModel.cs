@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
+using TimeBankCU.Models;
 
 namespace TimeBankCU.ViewModels
 {
@@ -85,9 +86,41 @@ namespace TimeBankCU.ViewModels
             // Implement file upload functionality here
         }
 
-        private void OnRelease()
+        private async void OnRelease()
         {
-            // Implement task release functionality here
+            // 创建新任务
+            var newTask = new TaskItem
+            {
+                PublisherName = "Current User", // 替换为实际发布者信息
+                PublisherEmail = "user@example.com", // 替换为实际发布者邮箱
+                TaskType = taskTitle,
+                Rating = "0", // 初始评分为0
+                Reward = reward,
+                Participants = participants,
+                TaskDetails = taskDetails
+            };
+
+            // 获取 TaskViewModel 实例并添加新任务
+            if (Application.Current.MainPage is AppShell shell)
+            {
+                foreach (var item in shell.Items)
+                {
+                    if (item is ShellContent content && content.Route == "TaskPage")
+                    {
+                        if (content.Content is NavigationPage navPage && navPage.CurrentPage.BindingContext is TaskViewModel taskViewModel)
+                        {
+                            taskViewModel.Tasks.Add(newTask);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 导航回 TaskPage
+            if (Application.Current.Windows.Count > 0)
+            {
+                await Application.Current.Windows[0].Page.Navigation.PopAsync();
+            }
         }
     }
 }

@@ -84,7 +84,7 @@ namespace TimeBankCU.ViewModels
         private void OnCreateTask()
         {
             // Navigate to CreateTaskPage using the new API
-            if(Application.Current.Windows.Count > 0)
+            if (Application.Current.Windows.Count > 0)
             {
                 Application.Current.Windows[0].Page.Navigation.PushAsync(new Views.CreateTaskPage());
             }

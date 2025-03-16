@@ -3,13 +3,16 @@
     x:Class="TimeBankCU.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:TimeBankCU.Views"  <!-- 更新命名空间 -->
-    Shell.FlyoutBehavior="Flyout"
+    xmlns:views="clr-namespace:TimeBankCU.Views"
+    FlyoutBehavior="Disabled"
     Title="TimeBankCU">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:MainPage}"
-        Route="MainPage" />
+    <!-- 定义底部导航栏 -->
+    <TabBar>
+        <ShellContent Title="Home" Icon="Resources/AppIcon/home.png" ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
+        <ShellContent Title="Task" Icon="Resources/AppIcon/task.png" ContentTemplate="{DataTemplate views:TaskPage}" Route="TaskPage" />
+        <ShellContent Title="Calendar" Icon="Resources/AppIcon/calendar.png" ContentTemplate="{DataTemplate views:CalendarPage}" Route="CalendarPage" />
+        <ShellContent Title="Me" Icon="Resources/AppIcon/me.svg" ContentTemplate="{DataTemplate views:MePage}" Route="MePage" />
+    </TabBar>
 
 </Shell>

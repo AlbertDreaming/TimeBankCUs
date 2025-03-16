@@ -2,22 +2,17 @@
 {
     public class TaskItem
     {
-        public required string PublisherName { get; set; }
-        public required string PublisherEmail { get; set; }
-        public required string TaskType { get; set; }
-        public required string Rating { get; set; }
-        public required string Reward { get; set; }
-        public required string Participants { get; set; }
-
-        // 如果有默认构造函数，请确保在其中初始化所有required属性
-        public TaskItem()
-        {
-            PublisherName = string.Empty;
-            PublisherEmail = string.Empty;
-            TaskType = string.Empty;
-            Rating = string.Empty;
-            Reward = string.Empty;
-            Participants = string.Empty;
-        }
+        public string PublisherName { get; set; } = string.Empty;
+        public string PublisherEmail { get; set; } = string.Empty;
+        public string TaskType { get; set; } = string.Empty;
+        public string Rating { get; set; } = string.Empty;
+        public string Reward { get; set; } = string.Empty;
+        public string Participants { get; set; } = string.Empty;
+        
+        public string TaskDetails { get; set; }  = string.Empty;
+        // 添加新的属性以匹配绑定
+        public string ImageUrl { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

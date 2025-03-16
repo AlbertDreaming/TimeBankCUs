@@ -5,7 +5,7 @@ using TimeBankCU.Models;
 
 namespace TimeBankCU.ViewModels
 {
-    public class MainViewModel : BindableObject
+    public partial class MainViewModel : BindableObject
     {
         public ObservableCollection<CarouselItem> CarouselItems { get; set; }
         public ObservableCollection<TaskItem> TaskItems { get; set; }
@@ -30,14 +30,36 @@ namespace TimeBankCU.ViewModels
 
             CarouselItems = new ObservableCollection<CarouselItem>
             {
-                new CarouselItem { ImageUrl = "https://example.com/image1.jpg" },
-                new CarouselItem { ImageUrl = "https://example.com/image2.jpg" }
+                new CarouselItem { ImageUrl = "Resources/Images/top_picture.png" },
+               
             };
 
             TaskItems = new ObservableCollection<TaskItem>
             {
-                new TaskItem { PublisherName = "John Doe", PublisherEmail = "john@example.com", TaskType = "Type1", Rating = "4.5", Reward = "$100", Participants = "5" },
-                new TaskItem { PublisherName = "Jane Smith", PublisherEmail = "jane@example.com", TaskType = "Type2", Rating = "4.0", Reward = "$200", Participants = "3" }
+                new TaskItem 
+                { 
+                    PublisherName = "John Doe", 
+                    PublisherEmail = "john@example.com", 
+                    TaskType = "Type1", 
+                    Rating = "4.5", 
+                    Reward = "$100", 
+                    Participants = "5",
+                    ImageUrl = "https://example.com/task1.jpg",
+                    Title = "Task 1",
+                    Description = "Description for Task 1"
+                },
+                new TaskItem 
+                { 
+                    PublisherName = "Jane Smith", 
+                    PublisherEmail = "jane@example.com", 
+                    TaskType = "Type2", 
+                    Rating = "4.0", 
+                    Reward = "$200", 
+                    Participants = "3",
+                    ImageUrl = "https://example.com/task2.jpg",
+                    Title = "Task 2",
+                    Description = "Description for Task 2"
+                }
             };
 
             SearchCommand = new Command(OnSearch);
