@@ -1,6 +1,6 @@
 ﻿using Microsoft.Maui.Controls;
 
-namespace TimeBankCU
+namespace TimeBankCU.Views
 {
     public partial class MainPage : ContentPage
     {

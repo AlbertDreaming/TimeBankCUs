@@ -64,6 +64,11 @@ namespace TimeBankCU.ViewModels
             MoreFiltersCommand = new Command(OnMoreFilters);
             TalkCommand = new Command<TaskItem>(OnTalk);
             CreateTaskCommand = new Command(OnCreateTask);
+
+            // 确保在构造函数退出前初始化所有不可为null的字段
+            selectedMethod = MethodOptions.FirstOrDefault() ?? string.Empty;
+            selectedLocation = LocationOptions.FirstOrDefault() ?? string.Empty;
+            selectedTime = TimeOptions.FirstOrDefault() ?? string.Empty;
         }
 
         private void OnMoreFilters()
@@ -78,8 +83,11 @@ namespace TimeBankCU.ViewModels
 
         private void OnCreateTask()
         {
-            // Navigate to CreateTaskPage
-            Application.Current.MainPage.Navigation.PushAsync(new Views.CreateTaskPage());
+            // Navigate to CreateTaskPage using the new API
+            if(Application.Current.Windows.Count > 0)
+            {
+                Application.Current.Windows[0].Page.Navigation.PushAsync(new Views.CreateTaskPage());
+            }
         }
     }
 }

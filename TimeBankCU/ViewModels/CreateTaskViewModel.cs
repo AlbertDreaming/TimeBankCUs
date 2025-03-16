@@ -71,6 +71,13 @@ namespace TimeBankCU.ViewModels
             CampusAreas = new ObservableCollection<string> { "Campus1", "Campus2" };
             UploadFileCommand = new Command(OnUploadFile);
             ReleaseCommand = new Command(OnRelease);
+
+            // 确保在构造函数退出前初始化所有不可为null的字段
+            selectedCampus = CampusAreas.FirstOrDefault() ?? string.Empty;
+            taskTitle = string.Empty;
+            reward = string.Empty;
+            participants = string.Empty;
+            taskDetails = string.Empty;
         }
 
         private void OnUploadFile()

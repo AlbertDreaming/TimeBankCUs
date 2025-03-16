@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 
 namespace TimeBankCU
 {
@@ -7,9 +8,12 @@ namespace TimeBankCU
         public App()
         {
             InitializeComponent();
+        }
 
-            // 设置主页面为导航页面，其中包含TaskPage
-            MainPage = new NavigationPage(new Views.TaskPage());
+        protected override Window CreateWindow(IActivationState? activationState) // 确保使用可空类型
+        {
+            var window = new Window(new NavigationPage(new Views.TaskPage()));
+            return window;
         }
     }
 }
