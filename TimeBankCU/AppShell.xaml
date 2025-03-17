@@ -7,12 +7,12 @@
     FlyoutBehavior="Disabled"
     Title="TimeBankCU">
 
-    <!-- 定义底部导航栏 -->
+    <!-- button navigation bar-->
     <TabBar>
-        <ShellContent Title="Home" Icon="Resources/AppIcon/home.png" ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
-        <ShellContent Title="Task" Icon="Resources/AppIcon/task.png" ContentTemplate="{DataTemplate views:TaskPage}" Route="TaskPage" />
-        <ShellContent Title="Calendar" Icon="Resources/AppIcon/calendar.png" ContentTemplate="{DataTemplate views:CalendarPage}" Route="CalendarPage" />
-        <ShellContent Title="Me" Icon="Resources/AppIcon/me.svg" ContentTemplate="{DataTemplate views:MePage}" Route="MePage" />
+        <ShellContent Title="Home" Icon="Resources/Images/home.png" ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
+        <ShellContent Title="Task" Icon="Resources/Images/task.png" ContentTemplate="{DataTemplate views:TaskPage}" Route="TaskPage" />
+        <ShellContent Title="Calendar" Icon="Resources/Images/calendar.png" ContentTemplate="{DataTemplate views:CalendarPage}" Route="CalendarPage" />
+        <ShellContent Title="Me" Icon="Resources/Images/me.svg" ContentTemplate="{DataTemplate views:MePage}" Route="MePage" />
     </TabBar>
 
 </Shell>

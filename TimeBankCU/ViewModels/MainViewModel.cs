@@ -26,11 +26,12 @@ namespace TimeBankCU.ViewModels
 
         public MainViewModel()
         {
-            _searchQuery = string.Empty; // 初始化 _searchQuery
+            _searchQuery = string.Empty; 
 
             CarouselItems = new ObservableCollection<CarouselItem>
             {
-                new CarouselItem { ImageUrl = "Resources/Images/top_picture.png" },
+                new CarouselItem { ImageUrl = "topI1" },
+                new CarouselItem { ImageUrl = "topI2" },
                
             };
 
