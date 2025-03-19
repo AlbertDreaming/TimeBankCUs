@@ -30,8 +30,8 @@ namespace TimeBankCU.ViewModels
 
             CarouselItems = new ObservableCollection<CarouselItem>
             {
-                new CarouselItem { ImageUrl = "topI1" },
-                new CarouselItem { ImageUrl = "topI2" },
+                new CarouselItem { ImageUrl = "top1" },
+                new CarouselItem { ImageUrl = "top2" },
                
             };
 
