@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
 
 namespace TimeBankCU.ViewModels
 {
@@ -58,10 +57,20 @@ namespace TimeBankCU.ViewModels
     public class Task
     {
         public string TaskName { get; set; }
+
+        public Task()
+        {
+            TaskName = string.Empty;
+        }
     }
 
     public class SearchHistory
     {
         public string SearchTerm { get; set; }
+
+        public SearchHistory()
+        {
+            SearchTerm = string.Empty;
+        }
     }
 }

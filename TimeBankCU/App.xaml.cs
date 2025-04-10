@@ -1,9 +1,8 @@
-﻿using Microsoft.Maui.Controls;
-using Microsoft.Maui.Graphics;
+﻿
 
 namespace TimeBankCU
 {
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {

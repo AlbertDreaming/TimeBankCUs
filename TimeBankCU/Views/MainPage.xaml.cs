@@ -1,12 +1,13 @@
-﻿using Microsoft.Maui.Controls;
+﻿using TimeBankCU.ViewModels;
 
 namespace TimeBankCU.Views
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage
     {
-        public MainPage()
+        public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
+            BindingContext = viewModel;
         }
     }
 }

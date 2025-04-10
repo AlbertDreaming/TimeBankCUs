@@ -4,11 +4,8 @@
              x:Class="TimeBankCU.Views.TaskPage"
              Title="Task Manager"
              xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
+             xmlns:models="clr-namespace:TimeBankCU.Models"
              x:DataType="viewmodels:TaskViewModel">
-
-    <ContentPage.BindingContext>
-        <viewmodels:TaskViewModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout>
@@ -24,8 +21,8 @@
             <!-- Task List -->
             <CollectionView ItemsSource="{Binding Tasks}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Gray" CornerRadius="10" Padding="10" Margin="5">
+                    <DataTemplate x:DataType="models:TaskItem">
+                        <Border Background="White" Stroke="Gray" StrokeShape="RoundRectangle 10" Padding="10" Margin="5">
                             <StackLayout>
                                 <Label Text="{Binding PublisherName}" FontAttributes="Bold" />
                                 <Label Text="{Binding PublisherEmail}" />
@@ -35,7 +32,7 @@
                                 <Label Text="{Binding Participants}" />
                                 <Button Text="Talk" Command="{Binding TalkCommand}" CommandParameter="{Binding .}" />
                             </StackLayout>
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

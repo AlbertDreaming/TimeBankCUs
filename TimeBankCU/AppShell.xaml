@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="TimeBankCU.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:TimeBankCU.Views"
-    FlyoutBehavior="Disabled"
-    Title="TimeBankCU">
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:TimeBankCU.Views"
+       x:Class="TimeBankCU.AppShell">
 
-    <!-- button navigation bar-->
+    <!-- Shell navigation using tabbed structure -->
     <TabBar>
-        <ShellContent Title="Home" Icon="Resources/Images/home.png" ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
-        <ShellContent Title="Task" Icon="Resources/Images/task.png" ContentTemplate="{DataTemplate views:TaskPage}" Route="TaskPage" />
-        <ShellContent Title="Calendar" Icon="Resources/Images/calendar.png" ContentTemplate="{DataTemplate views:CalendarPage}" Route="CalendarPage" />
-        <ShellContent Title="Me" Icon="Resources/Images/me.svg" ContentTemplate="{DataTemplate views:MePage}" Route="MePage" />
+        <ShellContent
+            Title="Home"
+            Icon="home.png"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="main" /> <!-- Main page route -->
+
+        <ShellContent
+            Title="Tasks"
+            Icon="tasks.png"
+            ContentTemplate="{DataTemplate views:TaskPage}"
+            Route="tasks" /> <!-- Tasks page route -->
+
+        <ShellContent
+            Title="Calendar"
+            Icon="calendar.png"
+            ContentTemplate="{DataTemplate views:CalendarPage}"
+            Route="calendar" /> <!-- Calendar page route -->
+
+        <ShellContent
+            Title="Me"
+            Icon="me.png"
+            ContentTemplate="{DataTemplate views:MePage}"
+            Route="me" /> <!-- Me page route -->
     </TabBar>
 
 </Shell>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
 using TimeBankCU.Models;
 
 namespace TimeBankCU.ViewModels
@@ -26,13 +25,12 @@ namespace TimeBankCU.ViewModels
 
         public MainViewModel()
         {
-            _searchQuery = string.Empty; 
+            _searchQuery = string.Empty;
 
             CarouselItems = new ObservableCollection<CarouselItem>
             {
                 new CarouselItem { ImageUrl = "top1" },
                 new CarouselItem { ImageUrl = "top2" },
-               
             };
 
             TaskItems = new ObservableCollection<TaskItem>
@@ -43,7 +41,7 @@ namespace TimeBankCU.ViewModels
                     PublisherEmail = "john@example.com", 
                     TaskType = "Type1", 
                     Rating = "4.5", 
-                    Reward = "$100", 
+                    Reward = "T100", 
                     Participants = "5",
                     ImageUrl = "https://example.com/task1.jpg",
                     Title = "Task 1",

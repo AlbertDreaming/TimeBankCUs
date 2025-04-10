@@ -1,12 +1,22 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
+
 
 namespace TimeBankCU.ViewModels
 {
     public class CalendarViewModel : BindableObject
     {
-        public string CurrentMonth { get; set; }
+        private string _currentMonth = string.Empty;  // 初始化字段
+        public string CurrentMonth
+        {
+            get => _currentMonth;
+            set
+            {
+                _currentMonth = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Day> Days { get; set; }
         public ICommand PreviousMonthCommand { get; }
         public ICommand NextMonthCommand { get; }
@@ -17,8 +27,8 @@ namespace TimeBankCU.ViewModels
             CurrentMonth = "March 2025";
             Days = new ObservableCollection<Day>
             {
-                new Day { Date = "1", Events = new ObservableCollection<Event> { new Event { Title = "Event 1" } } },
-                new Day { Date = "2", Events = new ObservableCollection<Event> { new Event { Title = "Event 2" } } }
+                new Day { Date = new DateTime(2025, 3, 1), Events = new ObservableCollection<Event> { new Event { Title = "Event 1" } } },
+                new Day { Date = new DateTime(2025, 3, 2), Events = new ObservableCollection<Event> { new Event { Title = "Event 2" } } }
             };
 
             PreviousMonthCommand = new Command(OnPreviousMonth);
@@ -44,12 +54,12 @@ namespace TimeBankCU.ViewModels
 
     public class Day
     {
-        public string Date { get; set; }
-        public ObservableCollection<Event> Events { get; set; }
+        public DateTime Date { get; set; }
+        public ObservableCollection<Event> Events { get; set; } = new();
     }
 
     public class Event
     {
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty; // 初始化属性
     }
 }

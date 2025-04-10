@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
+             xmlns:models="clr-namespace:TimeBankCU.Models"
              x:Class="TimeBankCU.Views.MainPage"
              Title="Task Manager"
-             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
              x:DataType="viewmodels:MainViewModel">
 
     <ContentPage.BindingContext>
@@ -11,17 +12,17 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Spacing="10" Padding="10" BackgroundColor="#F0F0F0">
 
-            <!-- Top Search Bar -->
+            <!-- Search Bar -->
             <SearchBar Placeholder="Search tasks or content..."
                        Text="{Binding SearchQuery}" 
                        SearchCommand="{Binding SearchCommand}" />
 
-            <!-- Image Carousel -->
-            <CarouselView ItemsSource="{Binding CarouselItems}">
+            <!-- Carousel -->
+            <CarouselView ItemsSource="{Binding CarouselItems}" HeightRequest="180">
                 <CarouselView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:CarouselItem">
                         <Image Aspect="AspectFill" Source="{Binding ImageUrl}" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
@@ -29,29 +30,92 @@
 
             <!-- Navigation Menu -->
             <ScrollView Orientation="Horizontal">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="15">
                     <Button Text="Post" Command="{Binding NavigateCommand}" CommandParameter="Post" />
                     <Button Text="Accept" Command="{Binding NavigateCommand}" CommandParameter="Accept" />
                     <Button Text="Credit" Command="{Binding NavigateCommand}" CommandParameter="Credit" />
                 </StackLayout>
             </ScrollView>
 
-            <!-- Task Display Area -->
+            <!-- Article Display Area -->
             <CollectionView ItemsSource="{Binding TaskItems}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BackgroundColor="White" Stroke="Gray" StrokeShape="RoundRectangle 10" Padding="10">
-                            <StackLayout>
-                                <Image Aspect="AspectFill" HeightRequest="100" Source="{Binding ImageUrl}" />
-                                <Label Text="{Binding Title}" FontAttributes="Bold" />
-                                <Label Text="{Binding Description}" />
+                    <DataTemplate x:DataType="models:TaskItem">
+                        <Border BackgroundColor="White"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="0"
+                                Margin="0,5">
+                            <Border.Shadow>
+                                <Shadow Brush="Black"
+                                        Offset="0,4"
+                                        Opacity="0.3"
+                                        Radius="6" />
+                            </Border.Shadow>
+
+                            <StackLayout Spacing="0">
+
+                                <!-- Task Image -->
+                                <Image Aspect="AspectFill"
+                                       HeightRequest="150"
+                                       Source="{Binding ImageUrl}" />
+
+                                <StackLayout Padding="10" Spacing="4">
+                                    <!-- Title & Description -->
+                                    <Label Text="{Binding Title}"
+                                           FontAttributes="Bold"
+                                           FontSize="Medium"
+                                           TextColor="#333" />
+
+                                    <Label Text="{Binding Description}"
+                                           FontSize="Small"
+                                           TextColor="#666" />
+
+                                    <!-- Additional Task Details -->
+                                    <StackLayout Orientation="Horizontal" Spacing="10">
+                                        <Label Text="{Binding TaskType}"
+                                               FontSize="Small"
+                                               TextColor="#007AFF"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding Campus}"
+                                               FontSize="Small"
+                                               TextColor="#888" />
+                                        <Label Text="Reward:"
+                                               FontSize="Small"
+                                               TextColor="#333"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding Reward}"
+                                               FontSize="Small"
+                                               TextColor="#FF8800" />
+                                    </StackLayout>
+
+                                    <!-- Like, Comment, Participants -->
+                                    <StackLayout Orientation="Horizontal" Spacing="15">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image Source="like_icon.svg" HeightRequest="16" WidthRequest="16" />
+                                            <Label Text="{Binding Likes}" FontSize="Small" TextColor="#333" Margin="3,0,0,0" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image Source="comment_icon.svg" HeightRequest="16" WidthRequest="16" />
+                                            <Label Text="{Binding Comments}" FontSize="Small" TextColor="#333" Margin="3,0,0,0" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="👥" FontSize="Small" />
+                                            <Label Text="{Binding Participants}" FontSize="Small" TextColor="#333" Margin="3,0,0,0" />
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                    <!-- Publisher & Interaction -->
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding PublisherName}" FontSize="Small" TextColor="#555" HorizontalOptions="StartAndExpand" />
+                                        <Button Text="Talk" Command="{Binding TalkCommand}" FontSize="Small" BackgroundColor="#007AFF" TextColor="White" CornerRadius="5" Padding="10,2" />
+                                    </StackLayout>
+                                </StackLayout>
                             </StackLayout>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

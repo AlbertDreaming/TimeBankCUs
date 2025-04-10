@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
              x:Class="TimeBankCU.Views.CalendarPage"
              Title="Calendar"
-             xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
              x:DataType="viewmodels:CalendarViewModel">
 
     <ContentPage.BindingContext>
@@ -11,33 +11,56 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Spacing="10" Padding="10" BackgroundColor="#F0F0F0">
 
             <!-- Top Month Navigation -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
-                <Button Text="Previous" Command="{Binding PreviousMonthCommand}" />
-                <Label Text="{Binding CurrentMonth}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                <Button Text="Next" Command="{Binding NextMonthCommand}" />
-            </StackLayout>
+            <Border BackgroundColor="White"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="10"
+                    Margin="0,5">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand">
+                    <Button Text="Previous" Command="{Binding PreviousMonthCommand}" />
+                    <Label Text="{Binding CurrentMonth}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="Center"
+                           FontAttributes="Bold" />
+                    <Button Text="Next" Command="{Binding NextMonthCommand}" />
+                </StackLayout>
+            </Border>
+
 
             <!-- Calendar View -->
             <CollectionView ItemsSource="{Binding Days}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Gray" CornerRadius="5" Padding="5" Margin="5">
+                    <DataTemplate x:DataType="viewmodels:Day">
+                        <Border BackgroundColor="White" Stroke="Gray" StrokeShape="RoundRectangle 8" Padding="10" Margin="5">
                             <StackLayout>
-                                <Label Text="{Binding Date}" FontAttributes="Bold" />
+                                <Label Text="{Binding Date, StringFormat='{0:dddd, MMM d}'}" FontAttributes="Bold" />
                                 <CollectionView ItemsSource="{Binding Events}">
                                     <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Frame BorderColor="LightGray" CornerRadius="5" Padding="3" Margin="3">
-                                                <Label Text="{Binding Title}" />
-                                            </Frame>
+                                        <DataTemplate x:DataType="viewmodels:Event">
+                                            <Label Text="• {Binding Title}" FontSize="Small" TextColor="#666" />
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
                             </StackLayout>
-                        </Frame>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Task List Section -->
+            <Label Text="Today's Tasks" FontSize="Medium" FontAttributes="Bold" Margin="5" />
+            <CollectionView ItemsSource="{Binding Days[0].Events}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:Event">
+                        <Border BackgroundColor="White"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="10"
+                                Margin="0,5">
+                            <Label Text="{Binding Title}" FontSize="Medium" TextColor="#333" />
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -47,7 +70,7 @@
                     VerticalOptions="End" HorizontalOptions="End"
                     WidthRequest="60" HeightRequest="60"
                     CornerRadius="30" BackgroundColor="DodgerBlue"
-                    TextColor="White" FontSize="Large" />
+                    TextColor="White" FontSize="Large" Margin="10" />
 
         </StackLayout>
     </ContentPage.Content>

@@ -2,6 +2,6 @@
 {
     public class CarouselItem
     {
-        public string ImageUrl { get; set; }
+        public required string ImageUrl { get; set; }
     }
 }
