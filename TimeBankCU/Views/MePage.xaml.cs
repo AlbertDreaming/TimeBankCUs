@@ -2,12 +2,13 @@
 
 namespace TimeBankCU.Views
 {
-    public partial class MePage
+    public partial class MePage : ContentPage
     {
-        public MePage(MeViewModel viewModel)
+        public MePage()  // 改成无参构造函数
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = new MeViewModel();  // 强制使用你手动构造的
         }
+
     }
 }

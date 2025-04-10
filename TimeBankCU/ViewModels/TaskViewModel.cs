@@ -11,8 +11,9 @@ namespace TimeBankCU.ViewModels
         private readonly ITaskStore _taskStore;
 
         public ObservableCollection<string> MethodOptions { get; } = new() { "Online", "Offline" };
-        public ObservableCollection<string> LocationOptions { get; } = new() { "Location1", "Location2" };
-        public ObservableCollection<string> TimeOptions { get; } = new() { "Morning", "Afternoon", "Evening" };
+        public ObservableCollection<string> LocationOptions { get; } = new() {             "Coventry University", "CU Coventry", "Coventry University London", "CU London", "CU Scarborough", "Coventry University Wrocław", "National Institute of Teaching and Education (NITE)", 
+        };
+        public ObservableCollection<string> TimeCreditsOptions { get; } = new() { "Premium Time Credits", "Time Credits" };
 
         public ObservableCollection<TaskItem> Tasks => _taskStore.Tasks;
 
@@ -64,7 +65,7 @@ namespace TimeBankCU.ViewModels
             
             _selectedMethod = MethodOptions.FirstOrDefault() ?? string.Empty;
             _selectedLocation = LocationOptions.FirstOrDefault() ?? string.Empty;
-            _selectedTime = TimeOptions.FirstOrDefault() ?? string.Empty;
+            _selectedTime = TimeCreditsOptions .FirstOrDefault() ?? string.Empty;
 
             
             foreach (var task in _taskStore.Tasks)
@@ -89,17 +90,19 @@ namespace TimeBankCU.ViewModels
             await OnCreateTask();
         }
 
-        private async System.Threading.Tasks.Task OnCreateTask()
+        private async Task OnCreateTask()
         {
             try
             {
-                var page = Helpers.ServiceHelper.GetService<CreateTaskPage>();
-                await Shell.Current.Navigation.PushAsync(page);
+                await Shell.Current.GoToAsync(nameof(CreateTaskPage));
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Navigation error: {ex.Message}");
+                Console.WriteLine($"❌ Navigation error: {ex.Message}");
+                await Shell.Current.DisplayAlert("Navigation Error", ex.Message, "OK");
             }
         }
+
+
     }
 }

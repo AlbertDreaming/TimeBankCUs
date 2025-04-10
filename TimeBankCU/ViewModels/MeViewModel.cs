@@ -1,76 +1,53 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace TimeBankCU.ViewModels
 {
-    public class MeViewModel : BindableObject
+    public class MeViewModel : INotifyPropertyChanged
     {
-        public string UserAvatar { get; set; }
-        public string UserName { get; set; }
-        public string UserSkills { get; set; }
-        public ObservableCollection<Task> MyTasks { get; set; }
-        public ObservableCollection<SearchHistory> SearchingHistory { get; set; }
-        public string TimeCredits { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void OnPropertyChanged([CallerMemberName] string? name = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public string UserName { get; set; } = "Nike D";
+
+        public string Avatar { get; set; } =
+            "https://cdn-icons-png.flaticon.com/512/616/616408.png"; // 可替换为本地路径或绑定用户头像
+
+        public int PremiumCredits { get; set; } = 60;
+
+        public int TotalCredits { get; set; } = 1050;
+
+        public ObservableCollection<string> Skills { get; set; } = new()
+        {
+            "Math Tutoring", "Experimental skill training"
+        };
 
         public ICommand AddSkillCommand { get; }
-        public ICommand NavigateCommand { get; }
-        public ICommand LogoutCommand { get; }
 
         public MeViewModel()
         {
-            UserAvatar = "https://example.com/avatar.jpg";
-            UserName = "John Doe";
-            UserSkills = "C#, XAML, MAUI";
-            MyTasks = new ObservableCollection<Task>
-            {
-                new Task { TaskName = "Task 1" },
-                new Task { TaskName = "Task 2" }
-            };
-            SearchingHistory = new ObservableCollection<SearchHistory>
-            {
-                new SearchHistory { SearchTerm = "Search 1" },
-                new SearchHistory { SearchTerm = "Search 2" }
-            };
-            TimeCredits = "100";
-
             AddSkillCommand = new Command(OnAddSkill);
-            NavigateCommand = new Command<string>(OnNavigate);
-            LogoutCommand = new Command(OnLogout);
         }
 
-        private void OnAddSkill()
+        private async void OnAddSkill()
         {
-            // Implement add skill functionality here
-        }
-
-        private void OnNavigate(string destination)
-        {
-            // Temporarily do nothing as a placeholder for real navigation
-        }
-
-        private void OnLogout()
-        {
-            // Implement logout functionality here
-        }
-    }
-
-    public class Task
-    {
-        public string TaskName { get; set; }
-
-        public Task()
-        {
-            TaskName = string.Empty;
-        }
-    }
-
-    public class SearchHistory
-    {
-        public string SearchTerm { get; set; }
-
-        public SearchHistory()
-        {
-            SearchTerm = string.Empty;
+            try
+            {
+                string result = await Shell.Current.DisplayPromptAsync("New Skill", "Enter a skill you're good at:");
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    Skills.Add(result.Trim());
+                    Console.WriteLine($"✅ Skill added: {result.Trim()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Failed to add skill: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "Failed to add skill. Please try again.", "OK");
+            }
         }
     }
 }

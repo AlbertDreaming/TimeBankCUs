@@ -39,6 +39,9 @@ public static class MauiProgram
         builder.Services.AddTransient<TaskViewModel>();   // TaskViewModel should be transient
         builder.Services.AddTransient<CreateTaskViewModel>();
         
+    
+
+        
 
         // Add other services here as needed (e.g., ITaskStore)
         builder.Services.AddSingleton<ITaskStore, TaskStore>(); // Singleton for data services (e.g., repositories, data stores)

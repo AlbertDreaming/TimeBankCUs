@@ -3,119 +3,148 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
              xmlns:models="clr-namespace:TimeBankCU.Models"
+             xmlns:converters="clr-namespace:TimeBankCU.Converters"
              x:Class="TimeBankCU.Views.MainPage"
              Title="Task Manager"
              x:DataType="viewmodels:MainViewModel">
 
+    <!-- ViewModel -->
     <ContentPage.BindingContext>
         <viewmodels:MainViewModel />
     </ContentPage.BindingContext>
 
+    <!-- Converters for tab control -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TabToBoolConverter x:Key="TabToBoolConverter" />
+            <converters:TabToColorConverter x:Key="TabToColorConverter"
+                                            SelectedColor="LightBlue"
+                                            UnselectedColor="LightGray" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout Spacing="10" Padding="10" BackgroundColor="#F0F0F0">
+        <ScrollView>
+            <StackLayout Spacing="10" Padding="10" BackgroundColor="#F0F0F0">
 
-            <!-- Search Bar -->
-            <SearchBar Placeholder="Search tasks or content..."
-                       Text="{Binding SearchQuery}" 
-                       SearchCommand="{Binding SearchCommand}" />
+                <!-- 🔍 Search Bar -->
+                <SearchBar Placeholder="Search tasks or content..."
+                           Text="{Binding SearchQuery}" 
+                           SearchCommand="{Binding SearchCommand}" />
 
-            <!-- Carousel -->
-            <CarouselView ItemsSource="{Binding CarouselItems}" HeightRequest="180">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate x:DataType="models:CarouselItem">
-                        <Image Aspect="AspectFill" Source="{Binding ImageUrl}" />
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
+                <!-- 🖼️ Carousel / Banner -->
+                <CarouselView ItemsSource="{Binding CarouselItems}" HeightRequest="180">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CarouselItem">
+                            <Image Aspect="AspectFill" Source="{Binding ImageUrl}" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                
+                <!-- 📤 Top Quick Icons (Emoji) -->
+                <!-- 📤 Top Quick Icons -->
+                <CollectionView ItemsSource="{Binding QuickIcons}"
+                                ItemsLayout="HorizontalList"
+                                HeightRequest="80"
+                                SelectionMode="None"
+                                Margin="0,10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:QuickIcon">
+                            <StackLayout WidthRequest="60"
+                                         Padding="0"
+                                         Spacing="4"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center">
+                                <!-- 图标 -->
+                                <Label Text="{Binding Emoji}"
+                                       FontSize="24"
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center" />
 
-            <!-- Navigation Menu -->
-            <ScrollView Orientation="Horizontal">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="15">
-                    <Button Text="Post" Command="{Binding NavigateCommand}" CommandParameter="Post" />
-                    <Button Text="Accept" Command="{Binding NavigateCommand}" CommandParameter="Accept" />
-                    <Button Text="Credit" Command="{Binding NavigateCommand}" CommandParameter="Credit" />
-                </StackLayout>
-            </ScrollView>
-
-            <!-- Article Display Area -->
-            <CollectionView ItemsSource="{Binding TaskItems}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:TaskItem">
-                        <Border BackgroundColor="White"
-                                StrokeShape="RoundRectangle 10"
-                                Padding="0"
-                                Margin="0,5">
-                            <Border.Shadow>
-                                <Shadow Brush="Black"
-                                        Offset="0,4"
-                                        Opacity="0.3"
-                                        Radius="6" />
-                            </Border.Shadow>
-
-                            <StackLayout Spacing="0">
-
-                                <!-- Task Image -->
-                                <Image Aspect="AspectFill"
-                                       HeightRequest="150"
-                                       Source="{Binding ImageUrl}" />
-
-                                <StackLayout Padding="10" Spacing="4">
-                                    <!-- Title & Description -->
-                                    <Label Text="{Binding Title}"
-                                           FontAttributes="Bold"
-                                           FontSize="Medium"
-                                           TextColor="#333" />
-
-                                    <Label Text="{Binding Description}"
-                                           FontSize="Small"
-                                           TextColor="#666" />
-
-                                    <!-- Additional Task Details -->
-                                    <StackLayout Orientation="Horizontal" Spacing="10">
-                                        <Label Text="{Binding TaskType}"
-                                               FontSize="Small"
-                                               TextColor="#007AFF"
-                                               FontAttributes="Bold" />
-                                        <Label Text="{Binding Campus}"
-                                               FontSize="Small"
-                                               TextColor="#888" />
-                                        <Label Text="Reward:"
-                                               FontSize="Small"
-                                               TextColor="#333"
-                                               FontAttributes="Bold" />
-                                        <Label Text="{Binding Reward}"
-                                               FontSize="Small"
-                                               TextColor="#FF8800" />
-                                    </StackLayout>
-
-                                    <!-- Like, Comment, Participants -->
-                                    <StackLayout Orientation="Horizontal" Spacing="15">
-                                        <StackLayout Orientation="Horizontal">
-                                            <Image Source="like_icon.svg" HeightRequest="16" WidthRequest="16" />
-                                            <Label Text="{Binding Likes}" FontSize="Small" TextColor="#333" Margin="3,0,0,0" />
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Image Source="comment_icon.svg" HeightRequest="16" WidthRequest="16" />
-                                            <Label Text="{Binding Comments}" FontSize="Small" TextColor="#333" Margin="3,0,0,0" />
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="👥" FontSize="Small" />
-                                            <Label Text="{Binding Participants}" FontSize="Small" TextColor="#333" Margin="3,0,0,0" />
-                                        </StackLayout>
-                                    </StackLayout>
-
-                                    <!-- Publisher & Interaction -->
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                        <Label Text="{Binding PublisherName}" FontSize="Small" TextColor="#555" HorizontalOptions="StartAndExpand" />
-                                        <Button Text="Talk" Command="{Binding TalkCommand}" FontSize="Small" BackgroundColor="#007AFF" TextColor="White" CornerRadius="5" Padding="10,2" />
-                                    </StackLayout>
-                                </StackLayout>
+                                <!-- 标签 -->
+                                <Label Text="{Binding Label}"
+                                       FontSize="12"
+                                       TextColor="Gray"
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center" />
                             </StackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-        </StackLayout>
+
+
+                <!-- 🧭 Tab Selector -->
+                <HorizontalStackLayout Spacing="12" Margin="0,10" HorizontalOptions="Center">
+                    <Button Text="Guide"
+                            Command="{Binding SwitchTabCommand}"
+                            CommandParameter="Guide"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter=Guide}" />
+                    <Button Text="Suggest"
+                            Command="{Binding SwitchTabCommand}"
+                            CommandParameter="Suggest"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter=Suggest}" />
+                    <Button Text="Experience"
+                            Command="{Binding SwitchTabCommand}"
+                            CommandParameter="Experience"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter=Experience}" />
+                </HorizontalStackLayout>
+
+                <!-- 📂 Tab Content -->
+                <StackLayout Margin="0,10" Spacing="20">
+
+                    <!-- 📘 Guide -->
+                    <ContentView IsVisible="{Binding SelectedTab, Converter={StaticResource TabToBoolConverter}, ConverterParameter=Guide}">
+                        <VerticalStackLayout>
+                            <Label Text="My experience with Task" FontAttributes="Bold" FontSize="16" />
+                            <Label Text="Impressive experience!!！！！！！！" FontSize="14" />
+                        </VerticalStackLayout>
+                    </ContentView>
+
+                    <!-- 📋 Suggest -->
+                    <ContentView IsVisible="{Binding SelectedTab, Converter={StaticResource TabToBoolConverter}, ConverterParameter=Suggest}">
+                        <CollectionView ItemsSource="{Binding TaskItems}" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame CornerRadius="12" Padding="12" Margin="0,5" BorderColor="#ccc">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="{Binding PublisherName}" FontAttributes="Bold" />
+                                            <Label Text="{Binding PublisherEmail}" FontSize="12" />
+                                            <Label Text="{Binding Title}" FontSize="14" />
+                                            <HorizontalStackLayout>
+                                                <Label Text="{Binding Reward}" />
+                                                <Label Text="{Binding Participants}" Margin="10,0,0,0"/>
+                                            </HorizontalStackLayout>
+                                            <Button Text="Talk" Command="{Binding TalkCommand}"
+                                                    BackgroundColor="#f8a" TextColor="White" />
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ContentView>
+
+                    <!-- 💬 Experience -->
+                    <ContentView IsVisible="{Binding SelectedTab, Converter={StaticResource TabToBoolConverter}, ConverterParameter=Experience}">
+                        <CollectionView ItemsSource="{Binding Experiences}" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame CornerRadius="12" Padding="10">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                            <Label Text="{Binding Emoji}" FontSize="28" VerticalOptions="Center" />
+                                            <StackLayout>
+                                                <Label Text="{Binding Title}" FontAttributes="Bold" />
+                                                <Label Text="{Binding Description}" FontSize="12" LineBreakMode="WordWrap" />
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ContentView>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

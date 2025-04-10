@@ -1,89 +1,125 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TimeBankCU.Views.MePage"
-             Title="Me"
              xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
-             xmlns:models="clr-namespace:TimeBankCU.ViewModels"
+             x:Class="TimeBankCU.Views.MePage"
              x:DataType="viewmodels:MeViewModel"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="White">
 
     <ContentPage.BindingContext>
         <viewmodels:MeViewModel />
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <Style x:Key="TagStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="BackgroundColor" Value="Red" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="Clip">
+                <RoundRectangleGeometry CornerRadius="12" />
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
     <ScrollView>
-        <StackLayout Padding="20" Spacing="20">
+        <VerticalStackLayout Spacing="15" Padding="15">
 
-            <!-- Top Section: User Info -->
-            <Frame HasShadow="True" CornerRadius="10" Padding="15" BackgroundColor="White">
-                <StackLayout Orientation="Horizontal" Spacing="15">
-                    <Frame WidthRequest="100" HeightRequest="100" CornerRadius="50" IsClippedToBounds="True" HasShadow="False" Padding="0">
-                        <Image Source="{Binding UserAvatar}" Aspect="AspectFill"/>
-                    </Frame>
+            <!-- 顶部图标栏 -->
+            <Grid ColumnDefinitions="*,*,*">
+                <Label Text="🔍" FontSize="22" />
+                <Label Text="12:00" FontSize="14" HorizontalOptions="Center" />
+                <HorizontalStackLayout HorizontalOptions="End">
+                    <Label Text="🌙" FontSize="20" Margin="5,0"/>
+                    <Label Text="⚙️" FontSize="20" Margin="5,0"/>
+                </HorizontalStackLayout>
+            </Grid>
 
-                    <StackLayout VerticalOptions="Center">
-                        <Label Text="{Binding UserName}" FontSize="24" FontAttributes="Bold" TextColor="#333" />
-                        <Label Text="{Binding UserSkills}" FontSize="14" TextColor="#666" />
-                        <Button Text="➕ Add Skill"
-                                Command="{Binding AddSkillCommand}"
-                                BackgroundColor="#0077CC"
-                                TextColor="White"
-                                FontAttributes="Bold"
-                                CornerRadius="6"
-                                Margin="0,10,0,0"/>
-                    </StackLayout>
-                </StackLayout>
-            </Frame>
+            <!-- 用户头像 + 名字 -->
+            <StackLayout HorizontalOptions="Center" Spacing="8">
+                <Border Stroke="LightGray" StrokeThickness="1" BackgroundColor="White"
+                        HeightRequest="80" WidthRequest="80" StrokeShape="RoundRectangle 40">
+                    <Image Source="{Binding Avatar}" Aspect="AspectFill" />
+                </Border>
+                <Label Text="{Binding UserName}" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center" />
 
-            <!-- Core Data Section -->
-            <Frame HasShadow="True" CornerRadius="10" Padding="15" BackgroundColor="White">
-                <StackLayout Spacing="15">
-                    <Label Text="My Tasks" FontSize="20" FontAttributes="Bold" TextColor="#333" />
-                    <CollectionView ItemsSource="{Binding MyTasks}" HeightRequest="120">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical"/>
-                        </CollectionView.ItemsLayout>
+                <!-- 技能标签 + ➕ -->
+                <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                    <CollectionView ItemsSource="{Binding Skills}"
+                                    ItemsLayout="HorizontalList"
+                                    HeightRequest="32"
+                                    SelectionMode="None">
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Task">
-                                <Frame BackgroundColor="#FAFAFA" CornerRadius="8" Padding="10" Margin="5" HasShadow="True">
-                                    <Label Text="{Binding TaskName}" TextColor="#222" />
-                                </Frame>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding}" Style="{StaticResource TagStyle}" />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                    <Label Text="Search History" FontSize="20" FontAttributes="Bold" TextColor="#333" />
-                    <CollectionView ItemsSource="{Binding SearchingHistory}" HeightRequest="120">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:SearchHistory">
-                                <Frame BackgroundColor="#FAFAFA" CornerRadius="8" Padding="10" Margin="5" HasShadow="True">
-                                    <Label Text="{Binding SearchTerm}" TextColor="#222" />
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                    <Label Text="➕" FontSize="20" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddSkillCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </StackLayout>
 
-                    <Label Text="Time Credits" FontSize="20" FontAttributes="Bold" TextColor="#333" />
-                    <Label Text="{Binding TimeCredits}" FontSize="18" TextColor="#0077CC" FontAttributes="Bold"/>
-                </StackLayout>
-            </Frame>
+            <!-- 积分信息区域 -->
+            <Border Stroke="#ddd" StrokeThickness="1" BackgroundColor="White"
+                    StrokeShape="RoundRectangle 12" Padding="15,10">
+                <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
 
-            <!-- Function Options Section -->
-            <Frame HasShadow="True" CornerRadius="10" Padding="15" BackgroundColor="White">
-                <StackLayout Spacing="10">
-                    <Button Text="⭐ Favorites" Command="{Binding NavigateCommand}" CommandParameter="Favorites" />
-                    <Button Text="🔐 Security" Command="{Binding NavigateCommand}" CommandParameter="Security" />
-                    <Button Text="❓ Help - Feedback" Command="{Binding NavigateCommand}" CommandParameter="Help-Feedback" />
-                    <Button Text="👍 Leave a Review" Command="{Binding NavigateCommand}" CommandParameter="Review" />
-                    <Button Text="🚪 Log Out" Command="{Binding LogoutCommand}" 
-                            BackgroundColor="#E53935"
-                            TextColor="White"
-                            FontAttributes="Bold"
-                            CornerRadius="6"/>
-                </StackLayout>
-            </Frame>
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                        <Label Text="📄" FontSize="28" />
+                        <Label Text="My Task" FontAttributes="Bold" FontSize="13" />
+                    </VerticalStackLayout>
 
-        </StackLayout>
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                        <Label Text="{Binding PremiumCredits}" FontSize="22" TextColor="Gold" FontAttributes="Bold" />
+                        <Label Text="Premium&#10;Time Credits" FontSize="12" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                        <Label Text="{Binding TotalCredits}" FontSize="22" TextColor="OrangeRed" FontAttributes="Bold" />
+                        <Label Text="Time Credits" FontSize="12" />
+                    </VerticalStackLayout>
+
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- 账户功能列表 -->
+            <Label Text="Favorites" FontAttributes="Bold" FontSize="16" />
+            <BoxView HeightRequest="1" Color="#eee" />
+
+            <VerticalStackLayout Spacing="15">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Language" FontAttributes="Bold" />
+                    <Label Text="›" FontSize="20" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Security" />
+                    <Label Text="›" FontSize="20" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Help and Feedback" />
+                    <Label Text="›" FontSize="20" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Give us a good review" />
+                    <Label Text="›" FontSize="20" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- 登出 -->
+            <Button Text="Log out"
+                    TextColor="OrangeRed"
+                    BackgroundColor="Transparent"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

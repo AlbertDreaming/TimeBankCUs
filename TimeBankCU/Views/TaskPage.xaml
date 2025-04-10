@@ -1,49 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TimeBankCU.Views.TaskPage"
-             Title="Task Manager"
              xmlns:viewmodels="clr-namespace:TimeBankCU.ViewModels"
              xmlns:models="clr-namespace:TimeBankCU.Models"
-             x:DataType="viewmodels:TaskViewModel">
+             x:Class="TimeBankCU.Views.TaskPage"
+             x:DataType="viewmodels:TaskViewModel"
+             BackgroundColor="#F9F9F9"
+             Title="Task Manager">
 
     <ContentPage.Content>
-        <StackLayout>
 
-            <!-- Filter Section -->
-            <StackLayout Orientation="Horizontal" Padding="10">
-                <Picker Title="Method" ItemsSource="{Binding MethodOptions}" SelectedItem="{Binding SelectedMethod}" />
-                <Picker Title="Location" ItemsSource="{Binding LocationOptions}" SelectedItem="{Binding SelectedLocation}" />
-                <Picker Title="Time" ItemsSource="{Binding TimeOptions}" SelectedItem="{Binding SelectedTime}" />
-                <Button Text="More Filters" Command="{Binding MoreFiltersCommand}" />
+            <StackLayout Padding="15" Spacing="15">
+
+                <!-- 🎯 Filter Section -->
+                <HorizontalStackLayout Spacing="10">
+                    <Picker Title="Method"
+                            ItemsSource="{Binding MethodOptions}"
+                            SelectedItem="{Binding SelectedMethod}"
+                            WidthRequest="100" />
+                    <Picker Title="Location"
+                            ItemsSource="{Binding LocationOptions}"
+                            SelectedItem="{Binding SelectedLocation}"
+                            WidthRequest="100" />
+                    <Picker Title="Time"
+                            ItemsSource="{Binding TimeCreditsOptions}"
+                            SelectedItem="{Binding SelectedTime}"
+                            WidthRequest="100" />
+                    <Button Text="More"
+                            Command="{Binding MoreFiltersCommand}"
+                            BackgroundColor="#EEE"
+                            TextColor="Black"
+                            FontSize="12"
+                            HeightRequest="40"
+                            Padding="10,0"
+                            CornerRadius="8" />
+                </HorizontalStackLayout>
+
+                <!-- Task List -->
+                <CollectionView ItemsSource="{Binding Tasks}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:TaskItem">
+                            <Border Background="White" Stroke="Gray" StrokeShape="RoundRectangle 10" Padding="10" Margin="5">
+                                <StackLayout>
+                                    <Label Text="{Binding PublisherName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding PublisherEmail}" />
+                                    <Label Text="{Binding TaskType}" />
+                                    <Label Text="{Binding Rating}" />
+                                    <Label Text="{Binding Reward}" />
+                                    <Label Text="{Binding Participants}" />
+                                    <Button Text="Talk" Command="{Binding TalkCommand}" CommandParameter="{Binding .}" />
+                                </StackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Floating Action Button -->
+                <Button Text="+" Command="{Binding CreateTaskCommand}"
+                        VerticalOptions="End" HorizontalOptions="End"
+                        WidthRequest="60" HeightRequest="60"
+                        CornerRadius="30" BackgroundColor="DodgerBlue"
+                        TextColor="White" FontSize="Large" />
+
             </StackLayout>
-
-            <!-- Task List -->
-            <CollectionView ItemsSource="{Binding Tasks}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:TaskItem">
-                        <Border Background="White" Stroke="Gray" StrokeShape="RoundRectangle 10" Padding="10" Margin="5">
-                            <StackLayout>
-                                <Label Text="{Binding PublisherName}" FontAttributes="Bold" />
-                                <Label Text="{Binding PublisherEmail}" />
-                                <Label Text="{Binding TaskType}" />
-                                <Label Text="{Binding Rating}" />
-                                <Label Text="{Binding Reward}" />
-                                <Label Text="{Binding Participants}" />
-                                <Button Text="Talk" Command="{Binding TalkCommand}" CommandParameter="{Binding .}" />
-                            </StackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <!-- Floating Action Button -->
-            <Button Text="+" Command="{Binding CreateTaskCommand}"
-                    VerticalOptions="End" HorizontalOptions="End"
-                    WidthRequest="60" HeightRequest="60"
-                    CornerRadius="30" BackgroundColor="DodgerBlue"
-                    TextColor="White" FontSize="Large" />
-
-        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
